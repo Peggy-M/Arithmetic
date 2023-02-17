@@ -1,0 +1,14 @@
+//
+// Created by peggy on 2023/2/17.
+//
+
+#ifndef ZUOCHENGYUNARITHMETIC_BINCOUNTER_H
+#define ZUOCHENGYUNARITHMETIC_BINCOUNTER_H
+
+
+class BINCounter {
+
+};
+
+
+#endif //ZUOCHENGYUNARITHMETIC_BINCOUNTER_H
