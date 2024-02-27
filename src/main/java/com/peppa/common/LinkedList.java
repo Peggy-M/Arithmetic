@@ -4,47 +4,51 @@ package com.peppa.common;
  * 自定义链表结构
  */
 public class LinkedList<T> {
-    private Node<T> head; // 头结点
-    private int length; // 链表长度
+    private Node<T> head;
 
-    // 添加元素到尾巴节点
-    public void append(Node<T> data) {
+    private int length;
+
+    // 添加节点到链表末尾
+    public void append(Node<T> newNode) {
         if (head == null) {
-            head = data;
+            head = newNode;
             length = 1;
-            return;
+        } else {
+            Node<T> current = head;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newNode;
+            length++;
         }
-        Node<T> current = head;
-        while (current.next != null) { // 定位到最后的一个元素
-            current = current.next;
-        }
-        current.next = data;// 追加到尾部
-        length++;
     }
 
-    //打印链表元素
+    // 获取链表中的节点
+    public Node<T> get(int index) {
+        Node<T> current = head;
+        int count = 0;
+        while (current != null) {
+            if (count == index) {
+                return current;
+            }
+            current = current.next;
+            count++;
+        }
+        return null;
+    }
+
+    // 打印链表内容
     public void printList() {
         Node<T> current = head;
-        int coutn = 0;
-        while (current != null && coutn < length) {
+        int count = 0;
+        while (current != null && count < length) {
+            count++;
             System.out.print(current.data + " ");
             current = current.next;
-            coutn++;
         }
         System.out.println();
     }
 
-    //根据元素下标获取元素数据
-    public T get(int index) {
-        Node<T> current = head;
-        if (index > length << 1) {
-            return current.data;
-        }
-        for (int i = 0; i < index; i++) {
-            current = current.next;
-        }
-        return current.data;
-    }
 
     public int getSize() {
         return length;

@@ -4,11 +4,10 @@ import com.peppa.common.LinkedList;
 import com.peppa.common.Node;
 
 import java.util.HashSet;
-import java.util.List;
 
 /**
  * 题目:
- * 给定两个可能有环也可能无环的单链表，头结点 head1 和 head2。
+ * 给定一个可能有环也可能无环的单链表，头结点 head1 和 head2。
  * 请实现一个函数,如果两个链表相交，请返回相交的 第一个节点 。如果不相交，返回 null
  * 【要求】
  * 如果两个链表的长度之和为 N ，时间复杂度请达到 O(N) , 额外空间复杂度请达到 O(1) 。
@@ -28,15 +27,41 @@ public class JosephRing {
      * @param <E>
      * @return
      */
-    public static <E> E vesselScreen(LinkedList<E> elements) {
-        HashSet<E> screen = new HashSet<E>();
+    public static <E> Node<E> vesselScreen(LinkedList<E> elements) {
+        HashSet<Node<E>> screen = new HashSet<Node<E>>();
         for (int i = 0; i < elements.getSize(); i++) {
-            E data = elements.get(i);
-            if (screen.contains(data))
-                return data;
-            screen.add(data);
+            Node<E> node = elements.get(i);
+            if (screen.contains(node))
+                return node;
+            screen.add(node);
         }
         return null;
+    }
+
+    /**
+     * @param node
+     * @param
+     * @return
+     */
+    public static <E> Node getLopNode(Node<E> node) {
+        if (node == null || node.next == null || node.next.next == null) {
+            return null;
+        }
+        Node n1 = node.next; //快
+        Node n2 = node.next.next; //慢
+        while (n1 != n2) { // 直到 n1 与 n2 首次相遇
+            if (n2.next == null || n2.next.next == null) {
+                return null;
+            }
+            n2 = n2.next.next;
+            n1 = n1.next;
+        }
+        n2 = node; // n2 从头结点重新开始
+        while (n1 != n2) {
+            n1 = n1.next;
+            n2 = n2.next;
+        }
+        return n1;
     }
 
     /**
@@ -45,7 +70,7 @@ public class JosephRing {
      * @param args
      */
     public static void main(String[] args) {
-        LinkedList<Integer> linkedList = new LinkedList();
+        LinkedList<Integer> linkedList = new LinkedList<Integer>();
         Node<Integer> integerNode_1 = new Node<Integer>(1);
         Node<Integer> integerNode_2 = new Node<Integer>(2);
         Node<Integer> integerNode_3 = new Node<Integer>(3);
@@ -60,12 +85,14 @@ public class JosephRing {
         linkedList.append(integerNode_5);
         linkedList.append(integerNode_6);
         linkedList.append(integerNode_7);
-        linkedList.append(integerNode_3);
+        linkedList.append(integerNode_2);
         linkedList.printList();
 
-        Integer data = vesselScreen(linkedList);
-        if (data != null)
-            System.out.println("有环-相交元素为: " + data);
+//        Node<Integer> node = vesselScreen(linkedList);// 利用容器实现环的查找
+        Node<Integer> integerNode = linkedList.get(0);
+        Node node = getLopNode(integerNode.next);
+        if (node != null)
+            System.out.println("有环-相交元素为: " + node.data);
         else
             System.out.println("无环-无相交元素");
     }
