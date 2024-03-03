@@ -39,9 +39,9 @@ public class JosephRing {
     }
 
     /**
-     * @param node
-     * @param
-     * @return
+     * 利用快慢指针，获取有环链表的入环节点
+     * @param node 有环单链表的头节点
+     * @return 入环节点
      */
     public static <E> Node getLopNode(Node<E> node) {
         if (node == null || node.next == null || node.next.next == null) {
